@@ -53,7 +53,7 @@ public class MassTree {
         final static int MAX_KEYS = MAX_CHILD - 1;
         // split するとき child の数は MAX_CHILD + 1。奇数だった時に右の子が多くなるように HALF_MAX_CHILD = (MAX_CHILD + 1) / 2
         final private static int HALF_MAX_CHILD = ((MAX_CHILD + 1) / 2);
-        final static int LEN_KEYSLICE = 2;
+        final static int LEN_KEYSLICE = 8;
     
         
         // Node
