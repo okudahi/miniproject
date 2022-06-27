@@ -37,29 +37,29 @@ public class Evaluate {
         System.out.println("Masstree:LEN_KEYSLICE = " + MassTree.MassTreeNode.LEN_KEYSLICE);
         System.out.println("B+tree:MAX_CHILD = " + Bplustree.MAX_CHILD);
         final int numInitialKeys = 100000;
-        final int numKeys = 1000000;
-        final int numTests = 5;
+        final int numKeys = 10000000;
+        final int numTests = 10;
         final int dontUse = 2; // ignore first dontUse times
         final int len_prefix = Integer.parseInt(args[0]);
         final int len_random = Integer.parseInt(args[1]);
         // int[] intKeyArray = new Random().ints(numKeys + numInitialKeys, 100000000, 999999999).toArray();
+        // for(int i = 0; i < numKeys + numInitialKeys; i++){
+        //     Keys[i] = String.valueOf(intKeyArray[i]);
+        // }
         int[] IndexArray = new Random().ints(numKeys/2,0, numKeys + numInitialKeys - 1).toArray();
         String[] Keys = new String[numKeys + numInitialKeys];
         String prefix = "";
         for(int i = 0; i < len_prefix; i++){
             prefix += "a";
         }
-        // for(int i = 0; i < numKeys + numInitialKeys; i++){
-        //     Keys[i] = String.valueOf(intKeyArray[i]);
-        // }
-        long sumins = 0;
-        long sumget = 0;
-        long sumdel = 0;
-        long sumgetr = 0;
         RandStr rnd = new RandStr();
         for(int i = 0; i < numKeys + numInitialKeys; i++){
             Keys[i] = prefix + rnd.randStrFunc(len_random);
         }
+        long sumins = 0;
+        long sumget = 0;
+        long sumdel = 0;
+        long sumgetr = 0;
         for(int t = 0; t < numTests; t++){
             MassTree tree = new MassTree();
             for(int i = 0; i < numInitialKeys; i++){
