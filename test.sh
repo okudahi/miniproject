@@ -10,7 +10,7 @@ exec_test() {
     for psize in "${PREFIX_SIZES[@]}"
         for rsize in "${RANDOM_SIZES[@]}"
             do
-              java -Xms1g -Xmx12g Evaluate $psize $rsize
+              java -Xms1g -Xmx25g Evaluate $psize $rsize
             done
 }
 echo $start_time
