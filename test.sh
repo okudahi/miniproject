@@ -11,7 +11,7 @@ exec_test() {
         do
         for rsize in "${RANDOM_SIZES[@]}"
             do
-              java -Xms1g -Xmx12g Evaluate $psize $rsize
+              java -Xms1g -Xmx20g Evaluate $psize $rsize
             done
         done
 }
