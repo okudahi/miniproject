@@ -38,8 +38,8 @@ public class Evaluate {
         System.out.println("B+tree:MAX_CHILD = " + Bplustree.MAX_CHILD);
         final int numInitialKeys = 100000;
         final int numKeys = 10000000;
-        final int numTests = 5;
-        final int dontUse = 1;
+        final int numTests = 10;
+        final int dontUse = 1; // ignore first (dontUse + 1) results
         final int len_prefix = Integer.parseInt(args[0]);
         final int len_random = 20;
         // int[] intKeyArray = new Random().ints(numKeys + numInitialKeys, 100000000, 999999999).toArray();
