@@ -53,7 +53,7 @@ public class MassTree {
         final static int MAX_KEYS = MAX_CHILD - 1;
         // split するとき child の数は MAX_CHILD + 1。奇数だった時に右の子が多くなるように HALF_MAX_CHILD = (MAX_CHILD + 1) / 2
         final private static int HALF_MAX_CHILD = ((MAX_CHILD + 1) / 2);
-        final static int LEN_KEYSLICE = 8;
+        final static int LEN_KEYSLICE = 2;
     
         
         // Node
@@ -318,13 +318,13 @@ public class MassTree {
                 this.data = new LayerOrDatum[MAX_KEYS + 1];
             }
             // コンストラクタ(要素が一つ入ったBorderNode)
-            public BorderNode(String key, String x) {
+            public BorderNode(String key, String x, int startIndex) {
                 this.serial = serialNumber++;
                 this.keys = new String[MAX_KEYS + 1];
                 this.data = new LayerOrDatum[MAX_KEYS + 1];
-                this.keys[0] = key.substring(0, Math.min(key.length(), LEN_KEYSLICE)); 
+                this.keys[0] = key.substring(startIndex, Math.min(key.length(), startIndex+LEN_KEYSLICE)); 
                 if(key.length() <= LEN_KEYSLICE) {this.data[0] = new Datum(x,"");}
-                else{this.data[0] = new Datum(x, key.substring(LEN_KEYSLICE));}
+                else{this.data[0] = new Datum(x, key.substring(startIndex, startIndex+LEN_KEYSLICE));}
                 this.nkeys = 1;
             }
     
@@ -569,7 +569,7 @@ public class MassTree {
         // MassTreeNodeへの挿入
         void insert(String key, String value, int sliceIndex){ // tree
             if(this.root == null){
-                root = new BorderNode(key,value);
+                root = new BorderNode(key,value,sliceIndex);
                 return;
             }
             SplitRequest req = this.root.insert(key, value, sliceIndex);

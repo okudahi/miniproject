@@ -1,14 +1,17 @@
 #!bin/bash
 start_time=`date "+%m/%d %H:%M:%S"`
 #PREFIX_SIZES=(0 80 640)
-PREFIX_SIZES=(0 10 20 40 80 160 320 640)
-#REFIX_SIZES=(0 5 10 20 30 40 50 60 70 80)
+#PREFIX_SIZES=(0 10 20 40 80 160 320 640)
+#PREFIX_SIZES=(0 5 10 20 30 40 50 60 70 80)
+PREFIX_SIZES=(0)
+RANDOM_SIZES=(0 10 20 40 80 160 320 640)
 
 exec_test() {
-    for size in "${PREFIX_SIZES[@]}"
-    do
-      java -Xms1g -Xmx12g Evaluate $size
-    done
+    for psize in "${PREFIX_SIZES[@]}"
+        for rsize in "${RANDOM_SIZES[@]}"
+            do
+              java -Xms1g -Xmx12g Evaluate $psize $rsize
+            done
 }
 echo $start_time
 exec_test
