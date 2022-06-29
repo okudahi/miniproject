@@ -49,7 +49,7 @@ public class MassTree {
 
     public static class MassTreeNode {
 
-        final static int MAX_CHILD = 12;
+        final static int MAX_CHILD = 3;
         final static int MAX_KEYS = MAX_CHILD - 1;
         // split するとき child の数は MAX_CHILD + 1。奇数だった時に右の子が多くなるように HALF_MAX_CHILD = (MAX_CHILD + 1) / 2
         final private static int HALF_MAX_CHILD = ((MAX_CHILD + 1) / 2);
@@ -324,7 +324,7 @@ public class MassTree {
                 this.data = new LayerOrDatum[MAX_KEYS + 1];
                 this.keys[0] = key.substring(startIndex, Math.min(key.length(), startIndex+LEN_KEYSLICE)); 
                 if(key.length() <= LEN_KEYSLICE) {this.data[0] = new Datum(x,"");}
-                else{this.data[0] = new Datum(x, key.substring(startIndex, startIndex+LEN_KEYSLICE));}
+                else{this.data[0] = new Datum(x, key.substring(Math.min(key.length(), startIndex+LEN_KEYSLICE)));}
                 this.nkeys = 1;
             }
     
@@ -625,7 +625,54 @@ public class MassTree {
             }
         }
     
-        // 可視化用dotファイル用
+        // // 可視化用dotファイル用(suffix表示)
+        // public static String makedot(Node t){ 
+        //     String text = "";
+        //     if(t != null){
+        //         if(t instanceof BorderNode){
+        //             boolean[] nextLayerExist = new boolean[t.nkeys];
+        //             text += "node" + t.serial + "[label = \"";
+        //             for(int i = 0; i < t.nkeys - 1; i++){
+        //                 if(((BorderNode)t).data[i] instanceof Layer){
+        //                     text += "<f" + i + "> "+ t.keys[i] + "|";
+        //                     if(((Layer)((BorderNode)t).data[i]).nextLayer.root != null){
+        //                         nextLayerExist[i] = true;
+        //                     }
+        //                 } else {
+        //                     text += "<f" + i + "> "+ t.keys[i] + ((Datum)((BorderNode)t).data[i]).suffix + "|";
+        //                 }
+        //             }
+        //             if(((BorderNode)t).data[t.nkeys - 1] instanceof Layer){
+        //                 text += "<f" + (t.nkeys - 1) + "> "+ t.keys[t.nkeys - 1] + "\"];\n";
+        //                 if(((Layer)((BorderNode)t).data[t.nkeys - 1]).nextLayer.root != null){
+        //                     nextLayerExist[t.nkeys - 1] = true;
+        //                 }
+        //             } else {
+        //                 text += "<f" + (t.nkeys - 1) + "> "+ t.keys[t.nkeys - 1] + ((Datum)((BorderNode)t).data[t.nkeys - 1]).suffix + "\"];\n";
+        //             }
+        //             for(int i = 0; i < t.nkeys; i++){
+        //                 if(nextLayerExist[i] == true){
+        //                     text += makedot(((Layer)((BorderNode)t).data[i]).nextLayer.root);
+        //                     text += "\"node" + t.serial + "\":f" + i + " -> \"node" + ((Layer)((BorderNode)t).data[i]).nextLayer.root.serial + "\"[color = red];\n"; 
+        //                 }
+        //             }
+        //         }
+        //         if(t instanceof InteriorNode){
+        //             text += "node" + t.serial + "[label = \"";
+        //             for(int i = 0; i < t.nkeys; i++){
+        //                 text += "<f" + i + "> " + "|" + t.keys[i] + "|";
+        //             }
+        //             text += "<f" + t.nkeys + ">\"];\n";
+        //             for(int i = 0; i < t.nkeys + 1; i++){
+        //                 text += makedot(((InteriorNode)t).child[i]);
+        //                 text += "\"node" + t.serial + "\":f" + i + " -> \"node" + ((InteriorNode)t).child[i].serial + "\"\n"; 
+        //             }
+        //         }
+        //     }   
+        //     return text;
+        // }
+
+        // 可視化用dotファイル用(suffix非表示)
         public static String makedot(Node t){ 
             String text = "";
             if(t != null){
@@ -639,7 +686,7 @@ public class MassTree {
                                 nextLayerExist[i] = true;
                             }
                         } else {
-                            text += "<f" + i + "> "+ t.keys[i] + ((Datum)((BorderNode)t).data[i]).suffix + "|";
+                            text += "<f" + i + "> "+ t.keys[i] + "|";
                         }
                     }
                     if(((BorderNode)t).data[t.nkeys - 1] instanceof Layer){
@@ -648,7 +695,7 @@ public class MassTree {
                             nextLayerExist[t.nkeys - 1] = true;
                         }
                     } else {
-                        text += "<f" + (t.nkeys - 1) + "> "+ t.keys[t.nkeys - 1] + ((Datum)((BorderNode)t).data[t.nkeys - 1]).suffix + "\"];\n";
+                        text += "<f" + (t.nkeys - 1) + "> "+ t.keys[t.nkeys - 1] + "\"];\n";
                     }
                     for(int i = 0; i < t.nkeys; i++){
                         if(nextLayerExist[i] == true){

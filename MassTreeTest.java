@@ -33,13 +33,30 @@ public class MassTreeTest {
         int[] intArray0 = rand.ints(100, 10500, 11500).toArray();
         int[] intArray1 = rand.ints(70, 0, 70).toArray();
         HashMap<String, String> m = new HashMap<String, String>();
-        for(int i = 0; i < intArray0.length; i++){
-            m.put(String.valueOf(intArray0[i]), String.valueOf(intArray0[i]));
-            tree.put(String.valueOf(intArray0[i]), String.valueOf(intArray0[i]));
-            System.out.println(intArray0[i] + " inserted");
-        }
-        tree.validate();
-        tree.rootTree.makeDotFile();
+        // for(long i = 100000000010L; i < 100000000020L; i++){
+        //     m.put(String.valueOf(i), String.valueOf(i));
+        //     tree.put(String.valueOf(i), String.valueOf(i));
+        //     System.out.println(i + " inserted");
+        // }
+        // for(long i = 110000000010L; i < 110000000020L; i++){
+        //     m.put(String.valueOf(i), String.valueOf(i));
+        //     tree.put(String.valueOf(i), String.valueOf(i));
+        //     System.out.println(i + " inserted");
+        // }
+        tree.put("https://www.u-tokyo.ac.jp/ja/schools-orgs/", "");
+        tree.put("https://www.u-tokyo.ac.jp/ja/about/", "");
+        tree.put("https://www.u-tokyo.ac.jp/ja/admissions", "");
+        tree.put("https://www.u-tokyo.ac.jp/ja/students/", "");
+        tree.put("https://www.u-tokyo.ac.jp/ja/research/", "");
+        tree.put("https://www.u-tokyo.ac.jp/ja/society/", "");
+        tree.put("https://www.u-tokyo.ac.jp/ja/almuni/", "");
+        // for(int i = 0; i < intArray0.length; i++){
+        //     m.put(String.valueOf(intArray0[i]), String.valueOf(intArray0[i]));
+        //     tree.put(String.valueOf(intArray0[i]), String.valueOf(intArray0[i]));
+        //     System.out.println(intArray0[i] + " inserted");
+        // }
+        // tree.validate();
+        tree.makeDotFile();
         System.out.println(m.size() + " " + tree.getrange("",10000).size());
         // for(int i = 0; i < intArray0.length; i++){ 
         //     System.out.println("key "+ tree.get(String.valueOf(intArray0[i])));
