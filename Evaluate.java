@@ -42,6 +42,8 @@ public class Evaluate {
         final int dontUse = 2; // ignore first dontUse times
         final int len_prefix = Integer.parseInt(args[0]);
         final int len_random = Integer.parseInt(args[1]);
+        System.out.println("prefix: " + len_prefix + " characters");
+        System.out.println("random: " + len_random + " characters");
         // int[] intKeyArray = new Random().ints(numKeys + numInitialKeys, 100000000, 999999999).toArray();
         // for(int i = 0; i < numKeys + numInitialKeys; i++){
         //     Keys[i] = String.valueOf(intKeyArray[i]);
