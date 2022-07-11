@@ -1,24 +1,22 @@
 digraph G {
   node [shape = record,height=.1];
-node0[label = "<f0> https://"];
-node1[label = "<f0> www.u-to"];
-node2[label = "<f0> kyo.ac.j"];
-node9[label = "<f0> |p/ja/sch|<f1>"];
-node5[label = "<f0> |p/ja/alm|<f1> |p/ja/res|<f2>"];
-node3[label = "<f0> p/ja/abo|<f1> p/ja/adm"];
-"node5":f0 -> "node3"
-node10[label = "<f0> p/ja/alm"];
-"node5":f1 -> "node10"
-node6[label = "<f0> p/ja/res"];
-"node5":f2 -> "node6"
-"node9":f0 -> "node5"
-node8[label = "<f0> |p/ja/stu|<f1>"];
-node4[label = "<f0> p/ja/sch|<f1> p/ja/soc"];
+node0[label = "<f0> u-tokyo."];
+node1[label = "<f0> ac.jp/ja"];
+node8[label = "<f0> |/schools|<f1>"];
+node4[label = "<f0> |/almuni/|<f1> |/researc|<f2>"];
+node2[label = "<f0> /about/|<f1> /admissi"];
+"node4":f0 -> "node2"
+node9[label = "<f0> /almuni/"];
+"node4":f1 -> "node9"
+node5[label = "<f0> /researc"];
+"node4":f2 -> "node5"
 "node8":f0 -> "node4"
-node7[label = "<f0> p/ja/stu"];
+node7[label = "<f0> |/student|<f1>"];
+node3[label = "<f0> /schools|<f1> /society"];
+"node7":f0 -> "node3"
+node6[label = "<f0> /student"];
+"node7":f1 -> "node6"
 "node8":f1 -> "node7"
-"node9":f1 -> "node8"
-"node2":f0 -> "node9"[color = red];
-"node1":f0 -> "node2"[color = red];
+"node1":f0 -> "node8"[color = red];
 "node0":f0 -> "node1"[color = red];
 }

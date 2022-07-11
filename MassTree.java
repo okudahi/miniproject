@@ -49,7 +49,7 @@ public class MassTree {
 
     public static class MassTreeNode {
 
-        final static int MAX_CHILD = 3;
+        final static int MAX_CHILD = 12;
         final static int MAX_KEYS = MAX_CHILD - 1;
         // split するとき child の数は MAX_CHILD + 1。奇数だった時に右の子が多くなるように HALF_MAX_CHILD = (MAX_CHILD + 1) / 2
         final private static int HALF_MAX_CHILD = ((MAX_CHILD + 1) / 2);
@@ -61,6 +61,7 @@ public class MassTree {
             int serial;
             int nkeys;
             String[] keys;
+            InteriorNode parent;
     
             //　ノードにキーkがあるときはそのインデックス、ないときは-1を返す
             int  isKeyExist(String k){ 
@@ -226,6 +227,7 @@ public class MassTree {
                 l.keys[borderIndex] = null;
                 l.nkeys = borderIndex;
                 r.nkeys = MAX_KEYS - borderIndex;
+                r.parent = l.parent;
                 return new SplitRequest(borderKey, l, r);
             }
     
@@ -401,6 +403,7 @@ public class MassTree {
                 }
                 l.next = r;
                 r.prev = l;
+                r.parent = l.parent;
     
                 return new SplitRequest(borderKey, l, r);
             }
@@ -581,6 +584,8 @@ public class MassTree {
                 newRoot.keys[0] = req.borderKey;
                 newRoot.child[0] = req.left;
                 newRoot.child[1] = req.right;
+                req.left.parent = newRoot;
+                req.right.parent = newRoot;
                 newRoot.nkeys = 1;
                 root = newRoot;
             }

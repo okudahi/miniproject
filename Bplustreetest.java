@@ -16,11 +16,11 @@ public class Bplustreetest {
 
     public static void main(String[] args){
         Bplustree tree = new Bplustree();
-        // int[] intArray0 = new Random().ints(100, 1000, 10000).toArray();
-        // int[] intArray1 = new Random().ints(80, 0, intArray0.length).toArray();
-        // for(int i = 0; i < intArray0.length; i++){
-        //     tree.put(String.valueOf(intArray0[i]), String.valueOf(intArray0[i]));
-        // }
+        int[] intArray0 = new Random(0).ints(100, 1000, 10000).toArray();
+        int[] intArray1 = new Random().ints(80, 0, intArray0.length).toArray();
+        for(int i = 0; i < intArray0.length; i++){
+            tree.put(String.valueOf(intArray0[i]), String.valueOf(intArray0[i]));
+        }
         // for(long i = 100000000010L; i < 100000000020L; i++){
         //     tree.put(String.valueOf(i), String.valueOf(i));
         //     System.out.println(i + " inserted");
@@ -29,13 +29,13 @@ public class Bplustreetest {
         //     tree.put(String.valueOf(i), String.valueOf(i));
         //     System.out.println(i + " inserted");
         // }
-        tree.put("https://www.u-tokyo.ac.jp/ja/schools-orgs/", "");
-        tree.put("https://www.u-tokyo.ac.jp/ja/about/", "");
-        tree.put("https://www.u-tokyo.ac.jp/ja/admissions", "");
-        tree.put("https://www.u-tokyo.ac.jp/ja/students/", "");
-        tree.put("https://www.u-tokyo.ac.jp/ja/research/", "");
-        tree.put("https://www.u-tokyo.ac.jp/ja/society/", "");
-        tree.put("https://www.u-tokyo.ac.jp/ja/almuni/", "");
+        // tree.put("u-tokyo.ac.jp/ja/schools-orgs/", "");
+        // tree.put("u-tokyo.ac.jp/ja/about/", "");
+        // tree.put("u-tokyo.ac.jp/ja/admissions", "");
+        // tree.put("u-tokyo.ac.jp/ja/students/", "");
+        // tree.put("u-tokyo.ac.jp/ja/research/", "");
+        // tree.put("u-tokyo.ac.jp/ja/society/", "");
+        // tree.put("u-tokyo.ac.jp/ja/almuni/", "");
         // for (int i = 999; i > 0; i--){
         //     tree.put(String.valueOf(i),String.valueOf(i));
         // }

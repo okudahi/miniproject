@@ -2,10 +2,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.*;
 
 public class Bplustree {
 
-    final static int MAX_CHILD = 3;
+    final static int MAX_CHILD = 12;
     final private static int MAX_KEYS = MAX_CHILD - 1;
     final private static int HALF_MAX_CHILD = ((MAX_CHILD + 1) / 2);
 
@@ -14,6 +16,8 @@ public class Bplustree {
         int serial;
         int nkeys;
         String[] keys;
+        InteriorNode parent;
+        int version;
 
         int  isKeyExist(String k){ //　ノードにキーkがあるときはそのインデックス、ないときは-1を返す
             for(int i = 0; i < this.nkeys; i++){
@@ -36,6 +40,19 @@ public class Bplustree {
                 } // k < keys[i]
             }
             return i;
+        }
+
+        public void lock(){
+            int mask = 1 << 31;
+            int locked = version & mask;
+            if(locked == 1) AtomicBoolean l = new AtomicBoolean();
+            while(l.get().compareAndSet(false, true) == false){
+                // retry
+            }
+        }
+
+        public void unlock(){
+
         }
 
         abstract public SplitRequest insert(String k, String v);
@@ -69,6 +86,7 @@ public class Bplustree {
             this.nkeys = 0;
             this.keys = new String[MAX_KEYS + 1];
             this.child = new Node[MAX_CHILD + 1];
+            this.version = 0b00000000_00000000_00000000_00000000;
         }
 
         // internalノードへのキーkの挿入
@@ -127,6 +145,7 @@ public class Bplustree {
             l.keys[borderIndex] = null;
             l.nkeys = borderIndex;
             r.nkeys = MAX_KEYS - borderIndex;
+            r.parent = l.parent;
             return new SplitRequest(borderKey, l, r);
         }
 
@@ -320,6 +339,7 @@ public class Bplustree {
             nkeys = 0;
             this.keys = new String[MAX_KEYS + 1];
             this.data = new String[MAX_KEYS + 1];
+            this.version = 0b00000000_00000000_00000000_00000000;
         }
         // コンストラクタ(要素が一つ入ったLeafNode)
         public LeafNode(String key, String x) {
@@ -328,7 +348,8 @@ public class Bplustree {
             this.data = new String[MAX_KEYS + 1];
             this.keys[0] = key; 
             this.data[0] = x;
-            this.nkeys = 1; 
+            this.nkeys = 1;
+            this.version = 0b00000000_00000000_00000000_00000000;
         }
 
         // leafノードへのキーk、データxの挿入
@@ -384,6 +405,7 @@ public class Bplustree {
             }
             l.next = r;
             r.prev = l;
+            r.parent = l.parent;
 
             return new SplitRequest(borderKey, l, r);
         }
@@ -514,6 +536,8 @@ public class Bplustree {
                 newRoot.child[1] = req.right;
                 newRoot.nkeys = 1;
                 root = newRoot;
+                req.left.parent = newRoot;
+                req.right.parent = newRoot;
             }
         }
     }

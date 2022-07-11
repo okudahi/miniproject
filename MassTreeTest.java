@@ -43,13 +43,13 @@ public class MassTreeTest {
         //     tree.put(String.valueOf(i), String.valueOf(i));
         //     System.out.println(i + " inserted");
         // }
-        tree.put("https://www.u-tokyo.ac.jp/ja/schools-orgs/", "");
-        tree.put("https://www.u-tokyo.ac.jp/ja/about/", "");
-        tree.put("https://www.u-tokyo.ac.jp/ja/admissions", "");
-        tree.put("https://www.u-tokyo.ac.jp/ja/students/", "");
-        tree.put("https://www.u-tokyo.ac.jp/ja/research/", "");
-        tree.put("https://www.u-tokyo.ac.jp/ja/society/", "");
-        tree.put("https://www.u-tokyo.ac.jp/ja/almuni/", "");
+        tree.put("u-tokyo.ac.jp/ja/schools-orgs/", "");
+        tree.put("u-tokyo.ac.jp/ja/about/", "");
+        tree.put("u-tokyo.ac.jp/ja/admissions", "");
+        tree.put("u-tokyo.ac.jp/ja/students/", "");
+        tree.put("u-tokyo.ac.jp/ja/research/", "");
+        tree.put("u-tokyo.ac.jp/ja/society/", "");
+        tree.put("u-tokyo.ac.jp/ja/almuni/", "");
         // for(int i = 0; i < intArray0.length; i++){
         //     m.put(String.valueOf(intArray0[i]), String.valueOf(intArray0[i]));
         //     tree.put(String.valueOf(intArray0[i]), String.valueOf(intArray0[i]));
