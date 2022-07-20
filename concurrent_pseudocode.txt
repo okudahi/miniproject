@@ -37,7 +37,7 @@ MasstreeNode.get(key k){
     if(v.deleted){
         retry;
     }
-    lv = extract a LayerOrDatum for k in n;
+    ld = extract a LayerOrDatum for k in n;
     if(n.version^v > "locked"){
         v = stableversion(n);
         next = n.next;
@@ -48,14 +48,14 @@ MasstreeNode.get(key k){
         }
         forward;
     }
-    else if(lv = NOTFOUND){
+    else if(ld = NOTFOUND){
         return NOTFOUND;
     }
-    else if(lv instanceof value){
-        return lv.value;
+    else if(ld instanceof value){
+        return ld.value;
     }
-    else if(lv instanceof layer){
-        root = lv.nextLayer;
+    else if(ld instanceof layer){
+        root = ld.nextLayer;
         advance k to next slice;
         retry;
     }
