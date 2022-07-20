@@ -1,0 +1,130 @@
+Node.lock{
+    while(this != null && version.locked.getAndSet(1)){}
+        //locked = 1 => ループ
+        //locked = 0 => 1にして抜ける
+}
+
+Node.unlock{
+    if(version.inserting){
+        ++version.vinsert;
+    }
+    else if(version.splitting){
+        ++version.vsplit;
+    }
+    n.version{locked,inserting,splitting} = 0;
+    // これらを1回の書き込みで行う
+}
+
+Node.stableversion{
+    AtmicInteger v = version;
+    while(v.inserting or v.splitting){
+        v = version
+    }
+    return v;
+}
+
+Node.lockedParent{
+    p = n.parent; lock(p);
+    if(p != n.parent){
+        unlock(p);
+        retry;
+    }
+    return p;
+}
+
+MasstreeNode.get(key k){
+    n,v = findborder(k);
+    if(v.deleted){
+        retry;
+    }
+    lv = extract a LayerOrDatum for k in n;
+    if(n.version^v > "locked"){
+        v = stableversion(n);
+        next = n.next;
+        while(!v.deleted and next != null and k >= lowkey(next)){
+            n = next;
+            v = n.stableversion;
+            next = n.next
+        }
+        forward;
+    }
+    else if(lv = NOTFOUND){
+        return NOTFOUND;
+    }
+    else if(lv instanceof value){
+        return lv.value;
+    }
+    else if(lv instanceof layer){
+        root = lv.nextLayer;
+        advance k to next slice;
+        retry;
+    }
+    else forward;
+}
+MasstreeNode.findborder(key k){
+    Node n = root;
+    AtmicInteger v = n.stableversion;
+    while(v.isroot == 0){
+        n = root.parent;
+        v = n.stableversion;
+    }
+    if(n instanceof BorderNode){
+        return n,v;
+    }
+    n0 = child of n containing key;
+    v0 = n0.stableversion;
+    if(n.version^v <= "locked"){
+        n = n0; v = v0;
+        descend;
+    }
+    v1 = stableversion(n);
+    if(v1.vsplit = v.vsplit){
+        retry;
+    }
+    v = v1;
+    descend;
+}
+InteriorNode.insert{
+    ki = keys.indexOf(keyslice);
+    SplitRequest req = child[ki].insert(keyslice,v,suf);
+    if(req == null){} // 何もしない
+    else{ // 子が分割→SplitRequest
+        String insertedKey = req.borderKey;
+        Node lchild = req.left;
+        Node rchild = req.right;
+        keys.insertAt(ki, keyslice);
+        child[ki] = lchild;
+        child.insertAt(ki+1, rchild);
+    }
+    if(keys.length > MAX_KEYS){ // ノードが満杯のとき、分割が発生
+        return split(); // 分割
+    }
+    return null; // 満杯でないならnullを返す
+}
+InteriorNode.split
+BorderNode.insert
+BorderNode.split(key k){
+    n0 = new border node;
+    version.splitting = 1;
+    n0.version = n.version;
+    split keys among n and n0, inserting k;
+    p = lockedParent(n);
+    if(p = null){
+        create a new interior node p with children n,n0;
+        unlock(n);unlock(n0); return;
+    }
+    else if p is not full{
+        p.version,inserting  = 1;
+        insert n0 into p;
+        unlock(n); unlock(n0); unlock(p); return;
+    }
+    else{
+        p.version.splitting = 1;
+        unlock(n);
+        p0 = new interior node;
+        p0.version = p.version;
+        split keys among p and p0, inserting n0;
+        unlock(n0); n = p; n0 = p0;
+        ascend;
+    }
+}
